@@ -62,7 +62,7 @@
 
   .glow-border::after {
     content: '';
-    @apply absolute -inset-[1px] rounded-inherit z-[-1] opacity-50;
+    @apply absolute -inset-[1px] rounded-[inherit] z-[-1] opacity-50;
     background: linear-gradient(to bottom right, rgba(194, 193, 255, 0.3), rgba(111, 0, 190, 0.3));
   }
 
