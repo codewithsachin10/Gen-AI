@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { useNavigate } from 'react-router-dom';
-import { Mail, Lock, UserPlus, LogIn, AlertCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function Auth() {
@@ -35,55 +34,60 @@ export default function Auth() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-900 px-4 pt-20">
+    <div className="h-[calc(100vh-64px)] mt-16 flex items-center justify-center px-4 overflow-hidden">
       <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="max-w-md w-full bg-slate-800 p-8 rounded-2xl border border-slate-700 shadow-2xl"
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="max-w-md w-full glass-card p-8 md:p-10 rounded-[2.5rem] relative overflow-hidden shrink-0"
       >
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-white mb-2">
-            {isSignUp ? 'Create Account' : 'Welcome Back'}
+        <div className="ai-shimmer opacity-20"></div>
+        
+        <div className="text-center mb-10">
+          <div className="inline-flex p-3 bg-primary/10 rounded-2xl mb-4 border border-primary/20">
+            <span className="material-symbols-outlined text-primary text-3xl">lock</span>
+          </div>
+          <h2 className="text-3xl font-black text-on-surface mb-2 tracking-tight italic uppercase">
+            {isSignUp ? 'Create Node' : 'Initialize Access'}
           </h2>
-          <p className="text-slate-400">
-            {isSignUp ? 'Join StudyGenius AI today' : 'Continue your learning journey'}
+          <p className="text-on-surface-variant opacity-70 font-medium">
+            {isSignUp ? 'Join the StudyGenius intelligence network' : 'Secure your learning session'}
           </p>
         </div>
 
         <form onSubmit={handleAuth} className="space-y-6">
           {error && (
-            <div className="bg-red-500/10 border border-red-500/50 text-red-500 p-3 rounded-lg flex items-center space-x-2 text-sm">
-              <AlertCircle className="w-4 h-4 flex-shrink-0" />
-              <span>{error}</span>
+            <div className="bg-error-container/20 border border-error/50 text-error p-4 rounded-xl flex items-center gap-3 text-sm animate-pulse">
+              <span className="material-symbols-outlined text-lg">warning</span>
+              <span className="font-medium">{error}</span>
             </div>
           )}
 
           <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-1">Email Address</label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
+            <div className="space-y-1.5">
+              <label className="block text-xs font-black text-primary uppercase tracking-[0.2em] ml-1">Terminal ID (Email)</label>
+              <div className="relative group">
+                <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant/40 group-focus-within:text-primary transition-colors">mail</span>
                 <input
                   type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg py-2 pl-10 pr-4 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
-                  placeholder="you@example.com"
+                  className="w-full bg-surface-container-lowest/50 border border-white/5 rounded-2xl py-4 pl-12 pr-4 text-on-surface placeholder:text-on-surface-variant/20 focus:outline-none focus:ring-1 focus:ring-primary/40 focus:bg-surface-container-low transition-all"
+                  placeholder="name@domain.com"
                 />
               </div>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-1">Password</label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
+            <div className="space-y-1.5">
+              <label className="block text-xs font-black text-primary uppercase tracking-[0.2em] ml-1">Encryption Key (Password)</label>
+              <div className="relative group">
+                <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant/40 group-focus-within:text-primary transition-colors">key</span>
                 <input
                   type="password"
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg py-2 pl-10 pr-4 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                  className="w-full bg-surface-container-lowest/50 border border-white/5 rounded-2xl py-4 pl-12 pr-4 text-on-surface placeholder:text-on-surface-variant/20 focus:outline-none focus:ring-1 focus:ring-primary/40 focus:bg-surface-container-low transition-all"
                   placeholder="••••••••"
                 />
               </div>
@@ -93,25 +97,27 @@ export default function Auth() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg font-bold transition flex items-center justify-center space-x-2 disabled:opacity-50"
+            className="w-full py-5 btn-primary-gradient text-white rounded-[1.5rem] font-black text-lg transition flex items-center justify-center gap-3 disabled:opacity-50 shadow-xl shadow-primary-container/20 group hover:-translate-y-0.5 active:scale-95"
           >
             {loading ? (
-              <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+              <span className="material-symbols-outlined animate-spin">sync</span>
             ) : (
               <>
-                {isSignUp ? <UserPlus className="w-5 h-5" /> : <LogIn className="w-5 h-5" />}
-                <span>{isSignUp ? 'Sign Up' : 'Sign In'}</span>
+                <span className="material-symbols-outlined group-hover:rotate-12 transition-transform">
+                  {isSignUp ? 'person_add' : 'login'}
+                </span>
+                <span className="uppercase tracking-widest">{isSignUp ? 'Sign Up' : 'Sign In'}</span>
               </>
             )}
           </button>
         </form>
 
-        <div className="mt-6 text-center">
+        <div className="mt-8 text-center">
           <button
             onClick={() => setIsSignUp(!isSignUp)}
-            className="text-indigo-400 hover:text-indigo-300 transition text-sm font-medium"
+            className="text-primary hover:text-white transition-all text-xs font-black uppercase tracking-[0.1em]"
           >
-            {isSignUp ? 'Already have an account? Sign In' : "Don't have an account? Sign Up"}
+            {isSignUp ? 'Existing Terminal? Access Here' : "New Node? Initialize Account"}
           </button>
         </div>
       </motion.div>

@@ -57,11 +57,11 @@ ${text}`;
     return JSON.parse(content);
   } catch (error) {
     console.error("AI Generation Error:", error);
-    return getMockData(text);
+    throw error;
   }
 };
 
-const getMockData = (text) => {
+export const getMockData = (text) => {
   return {
     summary: "This is a Demo Summary generated because there was an issue connecting to the AI API. It highlights the core concepts found in your text and provides a structured overview.",
     key_points: [
